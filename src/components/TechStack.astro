@@ -1,0 +1,106 @@
+---
+import SectionTItle from "./SectionTItle.astro";
+const { position } = Astro.props;
+---
+
+<section class="tech_stack">
+	<div class="container">
+		<SectionTItle
+			position={position}
+			title="My Tech Stack"
+			subtitle="Technologies I've been working with recently"
+		/>
+		<ul class="grid">
+			<li class="icon-list">
+				<img src="/html.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/css.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/js.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/react.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/native.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/bootstrap.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/tailwind.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/sass.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/git.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/Astro.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/GraphQL.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/github.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/AWS.png" alt="" class="icons" />
+			</li>
+			<li class="icon-list">
+				<img src="/Firebase.png" alt="" class="icons" />
+			</li>
+		</ul>
+	</div>
+</section>
+
+<style>
+	.tech_stack {
+		padding-top: 5rem;
+		padding-bottom: 4rem;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(80px, 125px));
+		gap: 2rem;
+		row-gap: 3rem;
+		place-items: center;
+		justify-content: space-between;
+	}
+	.grid li {
+		list-style-type: none;
+		width: 100px;
+		height: 100px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.grid li img {
+		max-width: 100%;
+		width: 80px;
+		height: 80px;
+	}
+
+	@media screen and (max-width: 600px) {
+		.grid {
+			gap: 1rem;
+			grid-template-columns: repeat(auto-fit, minmax(80px, 90px));
+		}
+		.grid li {
+			height: 80px;
+			width: 80px;
+		}
+		.grid li img {
+			height: 50px;
+			width: 50px;
+		}
+	}
+	@media screen and (max-width: 361px) {
+		.grid {
+			justify-content: center;
+		}
+	}
+</style>

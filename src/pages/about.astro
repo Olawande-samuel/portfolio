@@ -1,0 +1,106 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AboutCard from "../components/AboutCard.astro";
+---
+
+<Layout title="About Me">
+	<section class="about">
+		<div class="container">
+			<div>
+				<h1 class="about_header">About Me</h1>
+				<p class="top_desc">
+					I'm a passionate front-end developer with over three years of hands-on
+					industry experience. My craft revolves around the creation of bespoke
+					websites, where I leverage advanced HTML, CSS, and JavaScript
+					capabilities to bring unique digital visions to life.
+				</p>
+				<p>
+					One thing that sets me apart is my proven track record of not just
+					building stunning websites but also ensuring they perform at their
+					peak. I thrive on proactive maintenance and effective troubleshooting,
+					always striving to enhance website performance and stability.
+				</p>
+			</div>
+			<div>
+				<h2 class="about_header">Work Experience</h2>
+				<ul>
+					<AboutCard
+						title="Lead Frontend Developer"
+						organization="Gotocourse"
+						location="Remote"
+						role="Full Time"
+						startDate="June, 2022"
+						endDate="Present"
+					/>
+					<AboutCard
+						title="Frontend Developer"
+						organization="FireSwitch Technologies "
+						location="Hybrid, Ibadan"
+						role="Full Time"
+						startDate="Mar, 2021"
+						endDate="June, 2022"
+					/>
+					<AboutCard
+						title="Fullstack Web Developer"
+						organization="Immersive Tech"
+						location="Remote"
+						role="Part Time"
+						startDate="May, 2019"
+						endDate="Mar, 2021"
+					/>
+				</ul>
+			</div>
+			<div class="education_wrapper">
+				<h3 class="about_header">Education</h3>
+				<ul>
+					<AboutCard
+						title="B.A English"
+						organization="University of Ibadan"
+						role="Full Time"
+						startDate="May, 2014"
+						endDate="Mar, 2018"
+					/>
+
+					<AboutCard
+						title="M.A English"
+						organization="University of Ibadan"
+						role="Full Time"
+						startDate="June 2019"
+						endDate="Nov, 2021"
+					/>
+				</ul>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.about {
+		width: 70%;
+	}
+	.about .container div > p {
+		font-size: 0.925rem;
+		margin-bottom: 1rem;
+		line-height: 1.635;
+		color: var(--text-dark);
+	}
+	.about_header {
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--text-darker);
+		margin-block: 1.8rem;
+	}
+
+	ul {
+		margin-left: 0;
+	}
+
+	.education_wrapper ul {
+		margin-bottom: 10rem;
+	}
+	@media screen and (max-width: 768px) {
+		.about {
+			width: 100%;
+		}
+	}
+</style>

@@ -1,0 +1,79 @@
+---
+interface Props {
+	title: string;
+	role: string;
+	organization: string;
+	location?: string;
+	startDate: string;
+	endDate: string;
+}
+const { title, role, organization, location, startDate, endDate } = Astro.props;
+---
+
+<li data-aos="fade-right">
+	<div class="top">
+		<p>{title}</p>
+		<span>{role}</span>
+	</div>
+	<div class="bottom">
+		<div>
+			<i class="fa fa-solid fa-building"></i>
+			<span class="info">{organization}</span>
+		</div>
+		{
+			location && (
+				<div>
+					<i class="fa fa-solid fa-map" />
+					<span class="info">{location}</span>
+				</div>
+			)
+		}
+		<div class="right_most">
+			<i class="fa fa-solid fa-calendar"></i>
+			<span class="info">{startDate} - {endDate}</span>
+		</div>
+	</div>
+</li>
+
+<style>
+	li {
+		list-style-type: none;
+		padding-block: 1.5rem;
+		border-bottom: 1px solid var(--text-dark);
+	}
+	.top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.top span {
+		font-size: 14px;
+		color: #018c0f;
+		font-weight: 600;
+		background: #d7ffe0;
+		padding: 0.4rem 0.9rem;
+		border-radius: 6rem;
+	}
+	.top p {
+		font-size: 1.25rem;
+		color: var(--text-dark);
+		letter-spacing: 0.0625rem;
+	}
+	.bottom i {
+		margin-right: 0.3rem;
+	}
+	.bottom {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+	}
+	.bottom .right_most {
+		margin-left: auto;
+	}
+	.bottom .info,
+	.bottom i {
+		font-size: 12px;
+		font-weight: 500;
+		color: #a7a7a7;
+	}
+</style>

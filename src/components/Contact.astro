@@ -1,0 +1,68 @@
+---
+import Logo from "./Logo.astro";
+import Socials from "./Socials.astro";
+
+---
+
+<section class="contacts">
+    <div class="container">
+        <div class="contact_wrapper">
+            <Logo />
+            <div class="others">
+                <div class="contact_info">
+                    <a href="tel:+2348069366034">+234 806 9366 034</a>
+                    <a href="mailto:Olawandesamuel@gmail.com">olawandesamuel@gmail.com</a>
+                </div>
+                <Socials />
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .contacts {
+        padding-block: 4rem 2rem;
+        color: var(--text-dark);
+    }
+    .contact_wrapper {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid;
+    }
+    .others {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+    .contact_info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .contact_info a {
+        color: var(--text-dark);
+        text-decoration: none;
+    }
+    .contact_info a:hover {
+        text-decoration: underline;
+    }
+
+    @media screen and (max-width:600px){
+        .contacts {
+            padding-block: 2rem;
+        }
+        .contact_wrapper {
+            justify-content: center
+        }
+        .others {
+            justify-content: center;
+        }
+        .contact_info {
+            justify-content: center;
+            gap: .5rem;
+        }
+    }
+</style>

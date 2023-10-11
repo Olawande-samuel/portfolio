@@ -1,0 +1,92 @@
+---
+
+const {img, title, details, stack, preview, github} = Astro.props
+---
+
+<li class="project_card" data-aos="flip-left">
+    <div class="project_img_wrapper">
+        <img src={img} alt="">
+    </div>
+    <div class="project_details">
+        <h4>{title}</h4>
+        <p class="project_info">
+            {details}
+        </p>
+        <div class="project_stack">
+            <span>Tech Stack:</span>
+            <span>{stack}</span>
+        </div>
+        <div class="project_external_links">
+            <a href={preview} class="project_external_link">
+                <i class="fa fa-solid fa-link"></i>
+                <span>Live Preview</span>
+            </a>
+            <a href={github} class="project_external_link">
+                <i class="fa fa-brands fa-github"></i>
+                <span>View Code</span>
+            </a>
+        </div>
+    </div>
+</li>
+
+<style>
+    .project_card {
+        border-radius: 1.2rem;
+        box-shadow: 2px 2px 100px 0px rgba(0, 0, 0, 0.20);
+        background: var(--theme-light);
+        list-style-type: none;
+    }
+    .project_img_wrapper {
+        height: 40%;
+    }
+    .project_img_wrapper img {
+        border-top-left-radius: 1.2rem;
+        border-top-right-radius: 1.2rem;
+        /* max-width: 100%; */
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    .project_details {
+        height: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 1rem 1.7rem;
+    }
+    .project_details  h4 {
+        font-weight: 500;
+        font-size: 1.5rem;
+    }
+    .project_info {
+        color: var(--text-dark);
+        font-size: .8125rem;
+        font-weight: 300;
+    }
+    .project_stack {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: .5rem;
+        color:var(--text-darker);
+        font-size: 0.8rem;
+    }
+    .project_stack span:nth-child(2) {
+        font-size: 0.6rem;
+        font-weight: 300;
+    }
+    .project_external_links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .project_external_link {
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+        font-size: 0.8rem;
+    }
+</style>
+

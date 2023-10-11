@@ -1,0 +1,24 @@
+---
+interface Props {
+	position: string;
+	title: string;
+	subtitle: string;
+}
+const { position, title, subtitle } = Astro.props;
+---
+
+<header class="header">
+	<h2 class=`section_header ${position}`>{title}</h2>
+	<h3 class=`section_sub_heading ${position}`>{subtitle}</h3>
+</header>
+<style>
+	.header {
+		margin-bottom: 6rem;
+	}
+	.header .center {
+		text-align: center;
+	}
+	.header .start {
+		text-align: left;
+	}
+</style>

@@ -1,0 +1,96 @@
+---
+import Logo from "./Logo.astro";
+import NavLinks from "./NavLinks.astro";
+import Socials from "./Socials.astro";
+---
+
+<nav>
+	<div class="container">
+		<div class="navbar_container">
+			<Logo />
+			<div class="navbar_right mobile hidden">
+				<img
+					src="/close.png"
+					alt=""
+					width="30"
+					height="30"
+					class="close_btn"
+					role="button"
+				/>
+				<NavLinks />
+				<Socials />
+				<!-- <i class="fa fa-solid fa-bars hamburger" style="color: var(--text-dark)"></i> -->
+			</div>
+			<i
+				class="fa fa-solid fa-bars hamburger open_btn"
+				style="color: var(--text-dark)"></i>
+		</div>
+	</div>
+</nav>
+<script>
+	const nav = document.querySelector(".navbar_right");
+	const menu = document.querySelector(".open_btn");
+	const closeButton = document.querySelector(".close_btn");
+
+	closeButton.addEventListener("click", () => {
+		nav.classList.toggle("hidden");
+	});
+
+	menu.addEventListener("click", () => {
+		console.log("clicked");
+		nav.classList.toggle("hidden");
+	});
+</script>
+<style>
+	nav {
+		padding-block: 2.5rem;
+		background: var(--theme-light);
+	}
+	.navbar_container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.navbar_right {
+		display: flex;
+		gap: 3rem;
+		align-items: center;
+	}
+	.open_btn, .close_btn {
+		display: none;
+	}
+
+	@media screen and (max-width: 768px) {
+		.mobile {
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			background-color: #ddd;
+			width: 60%;
+			display: grid;
+			place-items: center;
+		}
+        
+        .open_btn {
+            margin-left: auto;
+        }
+
+		.open_btn, .close_btn {
+			display: block;
+            font-size: 24px;
+			/* position: absolute;
+			top: 5%;
+			left: 5%; */
+		}
+
+		.mobile.hidden {
+			right: -1000%;
+		}
+	}
+	@media screen and (max-width: 460px) {
+		.mobile {
+			width: 100%;
+		}
+	}
+</style>

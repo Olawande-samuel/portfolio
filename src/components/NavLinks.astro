@@ -1,0 +1,48 @@
+<ul class="links">
+	<li><a href="/">Home</a></li>
+	<li><a href="about">About</a></li>
+	<li><a href="techstack">Tech Stack</a></li>
+	<li><a href="projects">Projects</a></li>
+	<li><a href="contact">Contact</a></li>
+</ul>
+<style>
+	.links {
+		display: flex;
+		align-items: center;
+		list-style-type: none;
+		gap: 3rem;
+	}
+
+	/* .links li, */
+	.links li a {
+		color: var(--text-dark);
+		font-family: "DM Sans", sans-serif;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		background: #fff;
+		transition: 0.5s;
+		/* line-height: 63px; */
+	}
+	.links li a {
+		text-decoration: none;
+		transition: transform 0.3s ease;
+	}
+	.links li a:hover {
+		background: var(--gradient-text);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	@media screen and (max-width: 768px) {
+		.links {
+			flex-direction: column;
+			gap: 2rem;
+		}
+		.links li a {
+			background: transparent;
+			font-size: 20px;
+		}
+	}
+</style>

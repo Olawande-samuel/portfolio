@@ -1,0 +1,120 @@
+---
+import Header from "../components/Header.astro";
+interface Props {
+	title: string;
+	// activeTab: boolean;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100;9..40,200;9..40,300;9..40,400;9..40,500;9..40,700;9..40,800&family=Poppins:wght@100;200;400;500;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+		<script
+			is:inline
+			src="https://kit.fontawesome.com/4bcdefaee7.js"
+			crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<Header />
+		<slot />
+		<script is:inline src="https://unpkg.com/aos@next/dist/aos.js"></script>
+		<script is:inline>
+			AOS.init();
+		</script>
+	</body>
+</html>
+<style is:global>
+	:root {
+		--theme-light: #fff;
+		--text-dark: #666;
+		--text-darker: #42446e;
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+		--gradient-text: linear-gradient(#13b0f5, #e70faa);
+	}
+	* {
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		/* background: #13151a; */
+		background-size: 224px;
+		scroll-behavior: smooth;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+	body {
+		font-family: "Poppins", sans-serif;
+	}
+	.container {
+		padding-inline: 8rem;
+		margin-inline: auto;
+	}
+	@media screen and (max-width: 1024px) {
+		.container {
+			padding-inline: 4rem;
+		}
+	}
+	@media screen and (max-width: 864px) {
+		.container {
+			padding-inline: 2rem;
+		}
+	}
+	@media screen and (max-width: 465px) {
+		.container {
+			padding-inline: 1rem;
+		}
+	}
+
+	p {
+		margin: 0;
+	}
+	.section_header {
+		color: var(--text-darker);
+		font-size: 3rem;
+		font-family: "Poppins", sans-serif;
+		margin-bottom: 0.5rem;
+		text-transform: capitalize;
+		text-align: center;
+	}
+	.section_sub_heading {
+		color: var(--text-dark);
+		font-size: 1.2rem;
+		font-weight: 400;
+		font-family: "Poppins", sans-serif;
+		text-align: center;
+	}
+</style>

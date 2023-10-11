@@ -1,0 +1,47 @@
+---
+import Footer from "../components/Footer.astro";
+import Layout from "../layouts/Layout.astro";
+import Contacts from "../components/Contact.astro";
+---
+
+<Layout title="Contact Me">
+	<main class="contact_me">
+		<p>For any questions please contact:</p>
+		<a href="mailto:olawandesamuel@gmail.com">Olawandesamuel@gmail.com</a>
+	</main>
+    <Contacts />
+	<Footer />
+</Layout>
+
+<style>
+	.contact_me {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: min(50vh, 550px);
+	}
+	.contact_me p {
+		font-size: 3.625rem;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 4.375rem; /* 120.69% */
+		letter-spacing: -0.0625rem;
+		color: #1e0e62;
+	}
+	.contact_me a:hover {
+		text-decoration: underline;
+        text-decoration-color: #1e0e62;
+	}
+	.contact_me a {
+		font-size: 2.8rem;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 4.375rem; /* 120.69% */
+		letter-spacing: -0.0625rem;
+		background: var(--gradient-text);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+</style>

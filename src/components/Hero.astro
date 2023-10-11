@@ -1,0 +1,104 @@
+<section class="hero">
+	<div class="container hero_content_wrapper">
+		<div class="info">
+			<h1 data-aos="fade-up-right">
+				<span>Hi👋,</span>
+				<span>My name is</span>
+				<span>Olawande Akinmosin</span>
+				<span>I build things for the web</span>
+			</h1>
+		</div>
+		<div class="hero_image_wrapper">
+			<div class="image_ring" data-aos="zoom-in-up">
+				<img src="/portfolio.jpg" alt="" />
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		height: min(70vh, 550px);
+		display: grid;
+		align-items: center;
+	}
+	.hero_content_wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.info h1 {
+		text-align: start;
+		font-family: "Poppins", sans-serif;
+		font-weight: 700;
+	}
+	.info h1 span {
+		display: block;
+		color: #42446e;
+		font-size: clamp(2.5125rem, 2.3161rem + 0.9821vw, 3.2rem);
+		line-height: 3.8rem;
+	}
+	.info h1 span:nth-child(3) {
+		/* background: linear-gradient(
+			90deg,
+			rgba(19, 176, 245, 1) 55%,
+			rgba(231, 15, 170, 1) 100%
+		); */
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+        animation: gradient 15s ease infinite;
+	}
+
+	.image_ring {
+		height: 20rem;
+		width: 20rem;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		/* background: linear-gradient(#e70faa, #00c0fd); */
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+	}
+	.image_ring img {
+		/* max-width: 100%; */
+		height: 19.5rem;
+		width: 19.5rem;
+		border-radius: 50%;
+	}
+	@keyframes gradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		.hero {
+			height: auto;
+		}
+		.image_ring {
+			height: 15rem;
+			width: 15rem;
+		}
+		.image_ring img {
+			height: 14.5rem;
+			width: 14.5rem;
+		}
+	}
+
+	@media screen and (max-width: 600px) {
+		.hero_content_wrapper {
+			justify-content: center;
+			flex-wrap: wrap-reverse;
+		}
+	}
+</style>

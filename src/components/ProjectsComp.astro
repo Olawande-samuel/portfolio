@@ -1,0 +1,88 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import SectionTItle from "./SectionTItle.astro";
+
+interface Props {
+	position: string;
+}
+const { position } = Astro.props;
+---
+
+<section class="projects">
+	<div class="container">
+		<SectionTItle
+			position={position}
+			title="Projects"
+			subtitle="Things I've built so far"
+		/>
+		<ul class="projects_grid">
+			<ProjectCard
+				title="Gotocourse"
+				stack="React, Nextjs, Typescript AWSAmplify, Vercel."
+				details="Gotocourse is an  online platform that allow users launch, automate and scale their online courses and programs. It offers such features as Interactive live class/event tool, a school/organisation management system, and so on."
+				preview="https://gotocourse.com"
+				img="/gotocourse.png"
+				github="https://github.com/olawande-samuel/olawande-gotocourse"
+			/>
+			<ProjectCard
+				title="Meetifix"
+				stack="React, Nextjs, Typescript, Styled-Components, AWSChime, Vercel."
+				details="Meetifix is a unified platform to connect with customers and leads from anywhere and at anytime."
+				preview="https://meetifix.com"
+				img="/meetifix.png"
+				github="https://github.com/olawande-samuel/meetifix"
+			/>
+			<ProjectCard
+				title="Classpodia"
+				stack="CSS, React, Styled-Components"
+				details="Classpodia is an online learning and teaching platform"
+				preview="https://classpodia.com"
+				img="/classpodia.png"
+				github="https://github.com/Olawande-samuel/olawande_gotocourse"
+			/>
+			<ProjectCard
+				title="Fulazo"
+				stack="Vite, React, Tailwind, SCSS."
+				details="Fulazo is a decentralized  online real estate platform that  offers affordable real estate to users."
+				preview="https://fulazo.vercel.app"
+				img="/fulazo.png"
+				github="https://github.com/Olawande-samuel/fulazo"
+			/>
+			<ProjectCard
+				title="Spilleet"
+				stack="React, Nextjs, Vercel."
+				details="Spilleet is a unique subscription-based social media and micro-blogging web application. It was originally developed using Next.js and later converted to React.js for enhanced compatibility. Spilleet is designed to provide a seamless and feature-rich social media platform."
+				preview="https://spilleet.com"
+				img="/spilleet.png"
+				github="https://github.com/Olawande-samuel/React_spilleet"
+			/>
+			<ProjectCard
+				title="HotelsOffline"
+				stack="React, SCSS."
+				details="An online hotel management and booking application. Hotelsoffline initial proved challenging as this was for me, the first project that involved multiple user levels/types. I learnt about the importance of building reusable components which saved me a lot of time and space, and state management using ContextAPI"
+				preview="https://test.hotelsoffline.com"
+				img="/hotelsoffline.png"
+				github="https://github.com/Olawande-samuel/HotelOffline"
+			/>
+		</ul>
+	</div>
+</section>
+
+<style>
+	.projects {
+		padding-block: 4rem;
+	}
+
+	.projects header {
+		margin-bottom: 6rem;
+	}
+	.projects_grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 290px));
+		column-gap: 2rem;
+		row-gap: 3rem;
+		justify-content: center;
+		grid-auto-rows: auto;
+		place-items: center;
+	}
+</style>
