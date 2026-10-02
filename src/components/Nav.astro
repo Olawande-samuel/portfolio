@@ -1,0 +1,235 @@
+---
+interface Props {
+	current?: "work" | "about" | "contact";
+	/** On /work-with-me the pill becomes a gradient "Start a project" link. */
+	pill?: "work-with-me" | "start";
+	showStack?: boolean;
+}
+
+const { current, pill = "work-with-me", showStack = true } = Astro.props;
+
+const items = [
+	{ key: "work", label: "Work", href: "/work" },
+	...(showStack ? [{ key: "stack", label: "Stack", href: "/#stack" }] : []),
+	{ key: "about", label: "About", href: "/about" },
+	{ key: "contact", label: "Contact", href: "/contact" },
+];
+---
+
+<nav class="nav" aria-label="Main">
+	<a href="/" class="wordmark">OLAWANDE&nbsp;AKINMOSIN</a>
+	<div class="right">
+		<div class="links" id="nav-links">
+			{
+				items.map((item) => (
+					<a
+						href={item.href}
+						class:list={["link", { active: item.key === current }]}
+						aria-current={item.key === current ? "page" : undefined}
+					>
+						{item.label}
+					</a>
+				))
+			}
+		</div>
+		{
+			pill === "start" ? (
+				<a href="#start" class="pill pill-start">
+					Start a project
+				</a>
+			) : (
+				<a href="/work-with-me" class="pill">
+					Work with me
+				</a>
+			)
+		}
+		<button
+			type="button"
+			class="menu-btn"
+			aria-controls="nav-links"
+			aria-expanded="false"
+			aria-label="Menu"
+		>
+			<span></span><span></span>
+		</button>
+	</div>
+</nav>
+
+<script>
+	const nav = document.querySelector<HTMLElement>(".nav");
+	const button = nav?.querySelector<HTMLButtonElement>(".menu-btn");
+
+	const setOpen = (open: boolean) => {
+		nav?.classList.toggle("open", open);
+		button?.setAttribute("aria-expanded", String(open));
+	};
+
+	button?.addEventListener("click", () => setOpen(!nav?.classList.contains("open")));
+	nav?.querySelectorAll(".links a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+	document.addEventListener("keydown", (e) => {
+		if (e.key === "Escape") setOpen(false);
+	});
+</script>
+
+<style>
+	.nav {
+		position: sticky;
+		top: 0;
+		z-index: 40;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+		padding: 18px var(--gutter);
+		backdrop-filter: blur(14px);
+		-webkit-backdrop-filter: blur(14px);
+		background: oklch(0.155 0.008 300 / 0.72);
+		border-bottom: 1px solid var(--border-soft);
+	}
+
+	.wordmark {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		letter-spacing: 0.06em;
+		color: var(--text);
+		white-space: nowrap;
+	}
+
+	.wordmark:hover {
+		color: var(--text);
+	}
+
+	.right,
+	.links {
+		display: flex;
+		align-items: center;
+		gap: 28px;
+		font-size: 14px;
+	}
+
+	.link {
+		color: var(--text-muted);
+	}
+
+	.link:hover,
+	.link.active {
+		color: var(--text);
+	}
+
+	.pill {
+		display: inline-flex;
+		align-items: center;
+		padding: 9px 16px;
+		border-radius: 999px;
+		white-space: nowrap;
+		flex-shrink: 0;
+		border: 1px solid rgba(35, 213, 171, 0.45);
+		color: var(--mint);
+		font-size: 13px;
+		transition:
+			background-color 0.2s ease,
+			filter 0.2s ease;
+	}
+
+	.pill:hover {
+		background: rgba(35, 213, 171, 0.14);
+		color: var(--mint);
+	}
+
+	.pill-start {
+		border: none;
+		background: var(--gradient);
+		background-size: 400% 400%;
+		animation: om-grad 12s ease infinite;
+		color: oklch(0.16 0.02 165);
+		font-weight: 600;
+	}
+
+	.pill-start:hover {
+		background: var(--gradient);
+		background-size: 400% 400%;
+		color: oklch(0.16 0.02 165);
+		filter: brightness(1.12);
+	}
+
+	.menu-btn {
+		display: none;
+		width: 38px;
+		height: 38px;
+		padding: 0;
+		border-radius: 8px;
+		border: 1px solid var(--border-input);
+		background: none;
+		cursor: pointer;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
+	}
+
+	.menu-btn span {
+		display: block;
+		width: 16px;
+		height: 1.5px;
+		background: var(--text);
+		transition: transform 0.25s ease;
+	}
+
+	.open .menu-btn span:first-child {
+		transform: translateY(3.25px) rotate(45deg);
+	}
+
+	.open .menu-btn span:last-child {
+		transform: translateY(-3.25px) rotate(-45deg);
+	}
+
+	@media (max-width: 640px) {
+		.right {
+			gap: 12px;
+		}
+
+		.menu-btn {
+			display: inline-flex;
+		}
+
+		.links {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0;
+			padding: 8px var(--gutter) 16px;
+			background: oklch(0.155 0.008 300 / 0.97);
+			border-bottom: 1px solid var(--border-soft);
+		}
+
+		.open .links {
+			display: flex;
+		}
+
+		.link {
+			padding: 14px 0;
+			font-size: 16px;
+			border-bottom: 1px solid var(--border-soft);
+		}
+
+		.link:last-child {
+			border-bottom: none;
+		}
+	}
+
+	@media (max-width: 400px) {
+		.wordmark {
+			font-size: 12px;
+			letter-spacing: 0.03em;
+		}
+
+		.pill {
+			padding: 8px 12px;
+			font-size: 12.5px;
+		}
+	}
+</style>

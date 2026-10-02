@@ -1,90 +1,170 @@
 ---
-const { img, title, details, stack, preview, github } = Astro.props;
+import { Image } from "astro:assets";
+import PhoneShots from "./PhoneShots.astro";
+import type { Project } from "../data/site";
+
+interface Props {
+	project: Project;
+}
+
+const { project: p } = Astro.props;
 ---
 
-<li class="project_card" data-aos="flip-left">
-	<div class="project_img_wrapper">
-		<img src={img} alt="" />
+<article class="card" data-reveal>
+	<div class="media">
+		{
+			p.image ? (
+				<Image
+					src={p.image}
+					alt={`${p.name} screenshot`}
+					widths={[480, 720, 1160]}
+					sizes="(max-width: 1000px) calc(100vw - 80px), 578px"
+					class="shot"
+				/>
+			) : (
+				p.phones && <PhoneShots phones={p.phones} />
+			)
+		}
+		<div class="tag">{p.kind}</div>
 	</div>
-	<div class="project_details">
-		<h4>{title}</h4>
-		<p class="project_info">
-			{details}
-		</p>
-		<div class="project_stack">
-			<span>Tech Stack:</span>
-			<span>{stack}</span>
+	<div class="body">
+		<div class="head">
+			<h3>{p.name}</h3>
+			<span class="sector">{p.sector}</span>
 		</div>
-		<div class="project_external_links">
-			<a href={preview} target="_blank" class="project_external_link">
-				<i class="fa fa-solid fa-link"></i>
-				<span>Live Preview</span>
-			</a>
-			<a href={github} target="_blank" class="project_external_link">
-				<i class="fa fa-brands fa-github"></i>
-				<span>View Code</span>
-			</a>
+		<p class="blurb">{p.blurb}</p>
+		<div class="row">
+			<span class="row-label">Role</span>
+			<span>{p.role}</span>
+		</div>
+		<div class="row result">
+			<span class="row-label">Result</span>
+			<span>{p.outcome}</span>
+		</div>
+		<div class="chips stack">
+			{p.stack.map((t) => <span class="chip">{t}</span>)}
 		</div>
 	</div>
-</li>
+</article>
 
 <style>
-	.project_card {
-		border-radius: 1.2rem;
-		box-shadow: 2px 2px 100px 0px rgba(0, 0, 0, 0.2);
-		background: var(--theme-light);
-		list-style-type: none;
-	}
-	.project_img_wrapper {
-		height: 40%;
-	}
-	.project_img_wrapper img {
-		border-top-left-radius: 1.2rem;
-		border-top-right-radius: 1.2rem;
-		/* max-width: 100%; */
-		height: 100%;
-		width: 100%;
-		object-fit: cover;
-	}
-	.project_details {
-		height: 60%;
+	.card {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-around;
-		padding: 1rem 1.7rem;
+		border-radius: 14px;
+		border: 1px solid var(--border);
+		background: var(--surface-2);
+		overflow: hidden;
 	}
-	.project_details h4 {
-		font-weight: 500;
-		font-size: 1.5rem;
+
+	/* Hover lift lives on its own rule so it doesn't fight the reveal transition. */
+	.card,
+	:global(.js) .card.is-revealed {
+		transition:
+			border-color 0.3s ease,
+			transform 0.3s ease,
+			opacity 0.7s var(--ease-out);
 	}
-	.project_info {
-		color: var(--text-dark);
-		font-size: 0.8125rem;
-		font-weight: 300;
+
+	.card:hover {
+		border-color: rgba(231, 60, 126, 0.45);
+		transform: translateY(-4px);
 	}
-	.project_stack {
+
+	.media {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		background: var(--media-bg);
+		overflow: hidden;
+	}
+
+	.shot {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top center;
+		display: block;
+	}
+
+	.tag {
+		position: absolute;
+		top: 14px;
+		left: 14px;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		padding: 6px 10px;
+		border-radius: 999px;
+		background: oklch(0.14 0.01 300 / 0.8);
+		border: 1px solid var(--border-input);
+		color: oklch(0.8 0.02 300);
+	}
+
+	.body {
+		padding: 28px 28px 30px;
 		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		color: var(--text-darker);
-		font-size: 0.8rem;
+		flex-direction: column;
+		gap: 14px;
+		flex: 1;
 	}
-	.project_stack span:nth-child(2) {
-		font-size: 0.6rem;
-		font-weight: 300;
-	}
-	.project_external_links {
+
+	.head {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
-		justify-content: space-between;
-		align-items: center;
+		align-items: baseline;
+		gap: 12px;
 	}
-	.project_external_link {
+
+	h3 {
+		font-size: 24px;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+	}
+
+	.sector {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: oklch(0.58 0.012 300);
+	}
+
+	.blurb {
+		margin: 0;
+		font-size: 15.5px;
+		line-height: 1.62;
+		color: var(--text-body);
+	}
+
+	.row {
 		display: flex;
-		gap: 0.5rem;
-		align-items: center;
-		font-size: 0.8rem;
+		gap: 10px;
+		font-size: 14px;
+		line-height: 1.6;
+		color: oklch(0.66 0.012 300);
+	}
+
+	.result {
+		color: var(--mint);
+	}
+
+	.row-label {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: oklch(0.52 0.012 300);
+		padding-top: 3px;
+		flex-shrink: 0;
+	}
+
+	.stack {
+		margin-top: auto;
+		padding-top: 18px;
+		border-top: 1px solid var(--border-soft);
+	}
+
+	@media (max-width: 640px) {
+		.body {
+			padding: 22px 20px 24px;
+		}
 	}
 </style>

@@ -1,106 +1,385 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
-import AboutCard from "../components/AboutCard.astro";
+import DualCtaFooter from "../components/DualCtaFooter.astro";
+import portrait from "../assets/portrait.jpg";
+import { education, jobs, links } from "../data/site";
 ---
 
-<Layout title="About Me">
-	<section class="about">
-		<div class="container">
-			<div>
-				<h1 class="about_header">About Me</h1>
-				<p class="top_desc">
-					I'm a passionate front-end developer with over three years of hands-on
-					industry experience. My craft revolves around the creation of bespoke
-					websites, where I leverage advanced HTML, CSS, and JavaScript
-					capabilities to bring unique digital visions to life.
-				</p>
-				<p>
-					One thing that sets me apart is my proven track record of not just
-					building stunning websites but also ensuring they perform at their
-					peak. I thrive on proactive maintenance and effective troubleshooting,
-					always striving to enhance website performance and stability.
-				</p>
+<Layout
+	title="About — Olawande Akinmosin"
+	description="Olawande Akinmosin is a senior frontend engineer in Lagos, leading frontend at Haiven. Experience, education and résumé."
+	blobs={[{ color: "rgba(231,60,126,0.2)", size: "56vw", position: "top:-18vh;left:-10vw", duration: 24 }]}
+	nav={{ current: "about" }}
+>
+	<section class="section">
+		<div class="wrap-md intro">
+			<div class="side" data-reveal>
+				<Image
+					src={portrait}
+					alt="Olawande Akinmosin"
+					widths={[360, 720]}
+					sizes="(max-width: 880px) calc(100vw - 40px), 360px"
+					class="portrait"
+					loading="eager"
+				/>
+				<a href={links.resume} download class="resume">
+					<span>Download résumé</span><span class="resume-meta">PDF ↓</span>
+				</a>
+				<div class="side-links">
+					<a href={links.github} target="_blank" rel="noopener">GitHub</a>
+					<a href={links.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+					<a href={`mailto:${links.email}`}>Email</a>
+				</div>
 			</div>
-			<div>
-				<h2 class="about_header">Work Experience</h2>
-				<ul>
-					<AboutCard
-						title="Lead Frontend Developer"
-						organization="Gotocourse"
-						location="Remote"
-						role="Full Time"
-						startDate="June, 2022"
-						endDate="Present"
-					/>
-					<AboutCard
-						title="Frontend Developer"
-						organization="FireSwitch Technologies "
-						location="Hybrid, Ibadan"
-						role="Full Time"
-						startDate="Mar, 2021"
-						endDate="June, 2022"
-					/>
-					<AboutCard
-						title="Fullstack Web Developer"
-						organization="Immersive Tech"
-						location="Remote"
-						role="Part Time"
-						startDate="May, 2019"
-						endDate="Mar, 2021"
-					/>
-				</ul>
-			</div>
-			<div class="education_wrapper">
-				<h3 class="about_header">Education</h3>
-				<ul>
-					<AboutCard
-						title="B.A English"
-						organization="University of Ibadan"
-						role="Full Time"
-						startDate="May, 2014"
-						endDate="Mar, 2018"
-					/>
-
-					<AboutCard
-						title="M.A English"
-						organization="University of Ibadan"
-						role="Full Time"
-						startDate="June 2019"
-						endDate="Nov, 2021"
-					/>
-				</ul>
+			<div class="text">
+				<div class="eyebrow" data-reveal>About</div>
+				<h1 data-reveal>
+					I’m Olawande Akinmosin, a frontend engineer who enjoys building products that feel simple to
+					use, even when the systems behind them are anything but.
+				</h1>
+				<p data-reveal>
+					My path into engineering started with a love for language and design, which is why I pay as
+					much attention to clarity, usability, and product thinking as I do to code. Over the past five
+					years, I’ve built web and mobile applications across edtech, fintech, and property management
+					using React, Next.js, React Native, and TypeScript.
+				</p>
+				<p data-reveal>
+					I currently lead the frontend development of Haiven at Managerr Solutions, where I design and
+					build multi-tenant experiences for gated communities—from resident onboarding and digital
+					wallets to utility payments, tenancy, and facility management. The products I work on are
+					often permissions-heavy and payment-driven, so I care deeply about architecture that scales
+					and interfaces that reduce friction for real users.
+				</p>
+				<p data-reveal>
+					Outside of shipping features, I enjoy turning complex product requirements into thoughtful
+					user experiences, collaborating closely with designers and backend engineers, and constantly
+					learning better ways to build software.
+				</p>
+				<p class="tech" data-reveal>
+					<span>Tech I work with:</span> React, Next.js, React Native, TypeScript, Tailwind CSS, Zustand,
+					TanStack Query, Laravel APIs, Supabase &amp; MySQL.
+				</p>
 			</div>
 		</div>
 	</section>
+
+	<section class="section block">
+		<div class="wrap-md">
+			<div class="section-head bordered" data-reveal>
+				<h2 class="h2-sm">Experience</h2>
+				<div class="note">Most recent first</div>
+			</div>
+			<ol class="timeline">
+				{
+					jobs.map((j) => (
+						<li class="job" data-reveal>
+							<span class="ring" aria-hidden="true" />
+							<div class="when">
+								<div class="dates">{j.dates}</div>
+								<div class="job-meta">{j.meta}</div>
+							</div>
+							<div class="what">
+								<div class="job-head">
+									<h3>{j.org}</h3>
+									<span class="job-title">{j.title}</span>
+								</div>
+								<p>{j.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section block">
+		<div class="wrap-md edu">
+			<h2 class="h2-sm" data-reveal>Education</h2>
+			<div class="edu-cards">
+				{
+					education.map((e) => (
+						<div class="edu-card" data-reveal>
+							<div class="edu-dates">{e.dates}</div>
+							<div class="degree">{e.degree}</div>
+							<div class="school">{e.school}</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<DualCtaFooter slot="footer" width="wrap-md" />
 </Layout>
 
 <style>
-	.about {
-		width: 70%;
-	}
-	.about .container div > p {
-		font-size: 0.925rem;
-		margin-bottom: 1rem;
-		line-height: 1.635;
-		color: var(--text-dark);
-	}
-	.about_header {
-		font-size: 2.5rem;
-		font-weight: 700;
-		color: var(--text-darker);
-		margin-block: 1.8rem;
+	/* Intro */
+	.intro {
+		padding: 104px 0 96px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 56px;
+		align-items: flex-start;
 	}
 
-	ul {
-		margin-left: 0;
+	.side {
+		position: sticky;
+		top: 104px;
+		flex: 1 1 280px;
+		max-width: 360px;
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
 	}
 
-	.education_wrapper ul {
-		margin-bottom: 10rem;
+	.portrait {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		border-radius: 14px;
+		filter: grayscale(1) contrast(1.05);
+		display: block;
+		transition: filter 0.5s ease;
 	}
-	@media screen and (max-width: 768px) {
-		.about {
-			width: 100%;
+
+	.portrait:hover {
+		filter: grayscale(0) contrast(1);
+	}
+
+	.resume {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 16px 20px;
+		border-radius: 10px;
+		border: 1px solid rgba(231, 60, 126, 0.4);
+		background: rgba(231, 60, 126, 0.07);
+		font-size: 15px;
+		font-weight: 600;
+		color: var(--coral-light);
+		transition: background-color 0.2s ease;
+	}
+
+	.resume:hover {
+		background: rgba(231, 60, 126, 0.15);
+		color: var(--coral-light);
+	}
+
+	.resume-meta {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 400;
+		color: oklch(0.66 0.012 300);
+	}
+
+	.side-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		font-family: var(--font-mono);
+		font-size: 13px;
+	}
+
+	.text {
+		flex: 1 1 460px;
+		min-width: 0;
+	}
+
+	.text .eyebrow {
+		margin-bottom: 28px;
+	}
+
+	h1 {
+		font-size: clamp(28px, 3.3vw, 42px);
+		line-height: 1.28;
+		font-weight: 500;
+		letter-spacing: -0.028em;
+		text-wrap: pretty;
+	}
+
+	.text p {
+		margin: 18px 0 0;
+		font-size: 17.5px;
+		line-height: 1.74;
+		color: oklch(0.74 0.01 300);
+	}
+
+	.text h1 + p {
+		margin-top: 30px;
+	}
+
+	.text .tech {
+		margin-top: 28px;
+		padding-top: 22px;
+		border-top: 1px solid var(--border);
+		font-family: var(--font-mono);
+		font-size: 13.5px;
+		line-height: 1.75;
+		color: oklch(0.68 0.012 300);
+	}
+
+	.tech span {
+		color: var(--coral);
+	}
+
+	@media (max-width: 900px) {
+		.side {
+			position: static;
+		}
+	}
+
+	/* Experience */
+	.block {
+		padding-bottom: 104px;
+	}
+
+	.bordered {
+		border-bottom: 1px solid var(--border);
+	}
+
+	.timeline {
+		position: relative;
+		list-style: none;
+		margin: 8px 0 0;
+		padding: 0;
+	}
+
+	.timeline::before {
+		content: "";
+		position: absolute;
+		left: 7px;
+		top: 36px;
+		bottom: 36px;
+		width: 1px;
+		background: linear-gradient(rgba(231, 60, 126, 0.6), oklch(1 0 0 / 0.08));
+	}
+
+	.job {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px 40px;
+		padding: 30px 0 30px 40px;
+		border-bottom: 1px solid oklch(1 0 0 / 0.06);
+	}
+
+	.ring {
+		position: absolute;
+		left: 0;
+		top: 38px;
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+		border: 2px solid var(--pink);
+		background: var(--bg);
+	}
+
+	.when {
+		flex: 0 0 190px;
+		padding-top: 4px;
+	}
+
+	.dates {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: oklch(0.72 0.012 300);
+	}
+
+	.job-meta {
+		margin-top: 8px;
+		font-family: var(--font-mono);
+		font-size: 11.5px;
+		color: var(--text-faint);
+	}
+
+	.what {
+		flex: 1 1 380px;
+		min-width: 0;
+	}
+
+	.job-head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 6px 14px;
+	}
+
+	h3 {
+		font-size: 22px;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+	}
+
+	.job-title {
+		font-size: 15px;
+		color: var(--coral);
+	}
+
+	.what p {
+		margin: 12px 0 0;
+		font-size: 15.5px;
+		line-height: 1.65;
+		color: oklch(0.68 0.012 300);
+	}
+
+	/* Education */
+	.edu {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+
+	.edu h2 {
+		flex: 1 1 280px;
+	}
+
+	.edu-cards {
+		flex: 2 1 460px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+	}
+
+	.edu-card {
+		flex: 1 1 220px;
+		padding: 26px;
+		border-radius: 12px;
+		border: 1px solid oklch(1 0 0 / 0.1);
+		background: var(--surface);
+	}
+
+	.edu-dates {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: oklch(0.66 0.012 300);
+	}
+
+	.degree {
+		margin-top: 12px;
+		font-size: 19px;
+		font-weight: 600;
+	}
+
+	.school {
+		margin-top: 6px;
+		font-size: 15px;
+		color: oklch(0.68 0.012 300);
+	}
+
+	@media (max-width: 640px) {
+		.intro {
+			padding: 88px 0 80px;
+		}
+
+		.block {
+			padding-bottom: 88px;
+		}
+
+		.job {
+			padding-left: 32px;
 		}
 	}
 </style>

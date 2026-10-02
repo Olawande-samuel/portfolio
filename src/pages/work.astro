@@ -1,0 +1,456 @@
+---
+import { getImage, Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import DualCtaFooter from "../components/DualCtaFooter.astro";
+import PhoneShots from "../components/PhoneShots.astro";
+import { archive, projects } from "../data/site";
+
+const previews = await Promise.all(
+	archive.map((a) => getImage({ src: a.image, width: 800, height: 500, fit: "cover", position: "top", format: "webp" })),
+);
+---
+
+<Layout
+	title="Work — Olawande Akinmosin"
+	description="Recent products by Olawande Akinmosin: Haiven, ExcelMind, Veripass and Weyz, plus an archive of earlier work."
+	blobs={[{ color: "rgba(231,60,126,0.2)", size: "56vw", position: "top:-20vh;right:-14vw", duration: 26 }]}
+	nav={{ current: "work" }}
+>
+	<section class="section">
+		<div class="wrap intro">
+			<div class="eyebrow" data-reveal>Work</div>
+			<h1 data-reveal>Things I’ve built so far.</h1>
+			<p data-reveal>Four recent products, then everything before them.</p>
+		</div>
+	</section>
+
+	<section class="section featured">
+		<div class="wrap featured-grid">
+			{
+				projects.map((p) => (
+					<article class="feat" data-reveal>
+						<div class="feat-media">
+							{p.image ? (
+								<Image
+									src={p.image}
+									alt={`${p.name} screenshot`}
+									widths={[400, 800]}
+									sizes="(max-width: 640px) calc(100vw - 40px), 400px"
+									class="feat-img"
+								/>
+							) : (
+								p.phonesCompact && <PhoneShots phones={p.phonesCompact} compact />
+							)}
+						</div>
+						<div class="feat-body">
+							<div class="feat-meta">
+								{p.kind} · {p.sector}
+							</div>
+							<h3>{p.name}</h3>
+							<p>{p.role}</p>
+							<p class="result">{p.outcome}</p>
+							<div class="feat-chips">
+								{p.stack.slice(0, 4).map((t) => (
+									<span class="chip">{t}</span>
+								))}
+							</div>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="section archive">
+		<div class="wrap">
+			<div class="section-head" data-reveal>
+				<h2 class="h2-sm">Earlier work</h2>
+				<div class="note">{archive.length} projects</div>
+			</div>
+			<ol class="rows" data-archive>
+				{
+					archive.map((a, i) => (
+						<li class="row" data-index={i}>
+							<div class="thumb">
+								<Image src={a.image} alt="" widths={[480, 960]} sizes="calc(100vw - 72px)" />
+							</div>
+							<div class="n">{String(i + 1).padStart(2, "0")}</div>
+							<div class="name">
+								<div class="title">{a.name}</div>
+								<div class="meta">{a.meta}</div>
+							</div>
+							<div class="desc">
+								<p>{a.line}</p>
+								<div class="stack">{a.stack.length ? a.stack.join(" · ") : "Stack to be confirmed"}</div>
+							</div>
+							<div class="row-links">
+								{a.live && (
+									<a href={a.live} target="_blank" rel="noopener">
+										Live ↗<span class="sr-only"> {a.name} (opens in a new tab)</span>
+									</a>
+								)}
+								{a.code && (
+									<a href={a.code} target="_blank" rel="noopener" class="code">
+										Code ↗<span class="sr-only"> for {a.name} (opens in a new tab)</span>
+									</a>
+								)}
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<DualCtaFooter slot="footer" />
+
+	<div class="preview" aria-hidden="true" slot="after" data-preview>
+		{previews.map((img) => <img src={img.src} alt="" width="400" height="250" loading="lazy" decoding="async" />)}
+	</div>
+</Layout>
+
+<script>
+	const list = document.querySelector<HTMLElement>("[data-archive]");
+	const preview = document.querySelector<HTMLElement>("[data-preview]");
+	const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+	const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+	if (list && preview) {
+		const imgs = Array.from(preview.querySelectorAll("img"));
+		const W = 400;
+		const H = 250;
+		let x = 0;
+		let y = 0;
+		let frame = 0;
+
+		const enabled = () => canHover.matches && !reduced.matches;
+
+		const place = () => {
+			frame = 0;
+			let left = x + 28;
+			if (left + W > window.innerWidth - 16) left = x - W - 28;
+			const top = Math.max(76, Math.min(y - H / 2, window.innerHeight - H - 16));
+			preview.style.left = `${left}px`;
+			preview.style.top = `${top}px`;
+		};
+
+		const select = (index: number | null) => {
+			preview.classList.toggle("visible", index !== null);
+			imgs.forEach((img, i) => img.classList.toggle("active", i === index));
+		};
+
+		// Load the preview images once the pointer gets near the list, not on page load.
+		const warm = () => imgs.forEach((img) => (img.loading = "eager"));
+		list.addEventListener("pointerenter", warm, { once: true });
+
+		list.addEventListener("pointermove", (e) => {
+			if (!enabled() || e.pointerType !== "mouse") return;
+			x = e.clientX;
+			y = e.clientY;
+			const row = (e.target as HTMLElement).closest<HTMLElement>(".row");
+			select(row ? Number(row.dataset.index) : null);
+			if (!frame) frame = requestAnimationFrame(place);
+		});
+
+		list.addEventListener("pointerleave", () => select(null));
+		window.addEventListener("scroll", () => select(null), { passive: true });
+	}
+</script>
+
+<style>
+	/* Intro */
+	.intro {
+		padding: 104px 0 64px;
+	}
+
+	.intro .eyebrow {
+		margin-bottom: 28px;
+	}
+
+	h1 {
+		font-size: clamp(40px, 5.4vw, 76px);
+		line-height: 1.02;
+		font-weight: 600;
+		letter-spacing: -0.035em;
+		max-width: 16ch;
+		text-wrap: balance;
+	}
+
+	.intro p {
+		margin: 28px 0 0;
+		max-width: 56ch;
+		font-size: 18px;
+		line-height: 1.68;
+		color: var(--text-body);
+	}
+
+	/* Featured */
+	.featured {
+		padding-bottom: 104px;
+	}
+
+	.featured-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+
+	.feat {
+		flex: 1 1 520px;
+		min-width: 0;
+		display: flex;
+		flex-wrap: wrap;
+		border-radius: 14px;
+		border: 1px solid var(--border);
+		background: var(--surface-2);
+		overflow: hidden;
+	}
+
+	.feat,
+	:global(.js) .feat.is-revealed {
+		transition:
+			border-color 0.3s ease,
+			transform 0.3s ease,
+			opacity 0.7s var(--ease-out);
+	}
+
+	.feat:hover {
+		border-color: rgba(231, 60, 126, 0.45);
+		transform: translateY(-4px);
+	}
+
+	.feat-media {
+		flex: 1 1 220px;
+		min-height: 200px;
+		position: relative;
+		background: var(--media-bg);
+		overflow: hidden;
+	}
+
+	.feat-img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top center;
+		display: block;
+	}
+
+	.feat-body {
+		flex: 1 1 260px;
+		padding: 26px 26px 28px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.feat-meta {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: oklch(0.66 0.012 300);
+	}
+
+	.feat h3 {
+		font-size: 24px;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+	}
+
+	.feat p {
+		margin: 0;
+		font-size: 14.5px;
+		line-height: 1.6;
+		color: oklch(0.7 0.01 300);
+	}
+
+	.feat .result {
+		color: var(--mint);
+	}
+
+	.feat-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		margin-top: auto;
+		padding-top: 12px;
+	}
+
+	.feat-chips .chip {
+		white-space: nowrap;
+		padding: 5px 9px;
+	}
+
+	/* Archive */
+	.archive {
+		padding-bottom: 112px;
+	}
+
+	.rows {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid oklch(1 0 0 / 0.1);
+	}
+
+	.row {
+		display: grid;
+		grid-template-columns: 36px minmax(0, 1fr) minmax(0, 1.6fr) 140px;
+		align-items: baseline;
+		gap: 10px 32px;
+		padding: 26px 16px;
+		border-bottom: 1px solid oklch(1 0 0 / 0.08);
+		transition: background-color 0.25s ease;
+	}
+
+	.row:hover {
+		background: rgba(231, 60, 126, 0.05);
+	}
+
+	.n {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--text-faint);
+	}
+
+	.title {
+		font-size: clamp(22px, 2.2vw, 28px);
+		font-weight: 600;
+		letter-spacing: -0.02em;
+	}
+
+	.meta {
+		margin-top: 6px;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: oklch(0.6 0.012 300);
+	}
+
+	.desc p {
+		margin: 0;
+		font-size: 15.5px;
+		line-height: 1.6;
+		color: var(--text-body);
+	}
+
+	.stack {
+		margin-top: 10px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		line-height: 1.6;
+		color: oklch(0.58 0.012 300);
+	}
+
+	.row-links {
+		display: flex;
+		justify-content: flex-end;
+		gap: 18px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.row-links .code {
+		color: oklch(0.7 0.012 300);
+	}
+
+	.row-links .code:hover {
+		color: var(--text);
+	}
+
+	/* Touch devices get an inline thumbnail instead of the floating preview. */
+	.thumb {
+		display: none;
+	}
+
+	@media (hover: none) {
+		.thumb {
+			display: block;
+			grid-column: 1 / -1;
+			aspect-ratio: 16 / 9;
+			border-radius: 10px;
+			overflow: hidden;
+			background: var(--media-bg);
+			margin-bottom: 8px;
+		}
+
+		.thumb :global(img) {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: top center;
+			display: block;
+		}
+	}
+
+	@media (max-width: 760px) {
+		.row {
+			grid-template-columns: 28px minmax(0, 1fr);
+			gap: 10px 14px;
+			padding: 24px 4px;
+		}
+
+		.desc,
+		.row-links {
+			grid-column: 2;
+		}
+
+		.row-links {
+			justify-content: flex-start;
+			margin-top: 4px;
+		}
+	}
+
+	/* Hover preview */
+	.preview {
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 400px;
+		height: 250px;
+		z-index: 60;
+		pointer-events: none;
+		border-radius: 12px;
+		overflow: hidden;
+		background: var(--media-bg);
+		border: 1px solid var(--border-input);
+		box-shadow: 0 24px 60px oklch(0.08 0.01 300 / 0.6);
+		opacity: 0;
+		transform: scale(0.92);
+		transition:
+			opacity 0.22s ease,
+			transform 0.3s var(--ease-out);
+	}
+
+	.preview.visible {
+		opacity: 1;
+		transform: scale(1) rotate(-1.5deg);
+	}
+
+	.preview img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top center;
+		display: block;
+		opacity: 0;
+		transition: opacity 0.2s ease;
+	}
+
+	.preview img.active {
+		opacity: 1;
+	}
+
+	@media (hover: none), (prefers-reduced-motion: reduce) {
+		.preview {
+			display: none;
+		}
+	}
+</style>
