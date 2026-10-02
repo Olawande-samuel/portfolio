@@ -1,0 +1,71 @@
+---
+interface Props {
+	label: string;
+	name: string;
+	/** Prefix for the element id, so the same field name can appear in two forms on one page. */
+	idPrefix: string;
+	type?: "text" | "email" | "url" | "textarea" | "select";
+	placeholder?: string;
+	required?: boolean;
+	optional?: boolean;
+	full?: boolean;
+	rows?: number;
+	options?: string[];
+	autocomplete?: string;
+}
+
+const {
+	label,
+	name,
+	idPrefix,
+	type = "text",
+	placeholder,
+	required = false,
+	optional = false,
+	full = false,
+	rows = 4,
+	options = [],
+	autocomplete,
+} = Astro.props;
+
+const id = `${idPrefix}-${name}`;
+const errorId = `${id}-error`;
+---
+
+<div class:list={["field", { "field-full": full }]}>
+	<label class="field-label" for={id}>
+		{label}
+		{optional && <span class="optional">(optional)</span>}
+	</label>
+	{
+		type === "textarea" ? (
+			<textarea
+				class="input"
+				id={id}
+				name={name}
+				rows={rows}
+				placeholder={placeholder}
+				required={required}
+				aria-describedby={errorId}
+			/>
+		) : type === "select" ? (
+			<select class="input" id={id} name={name} aria-describedby={errorId}>
+				{options.map((o) => (
+					<option value={o}>{o}</option>
+				))}
+			</select>
+		) : (
+			<input
+				class="input"
+				id={id}
+				name={name}
+				type={type}
+				placeholder={placeholder}
+				required={required}
+				autocomplete={autocomplete}
+				aria-describedby={errorId}
+			/>
+		)
+	}
+	<span class="field-error" id={errorId} aria-live="polite"></span>
+</div>

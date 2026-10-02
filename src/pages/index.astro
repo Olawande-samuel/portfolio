@@ -1,78 +1,512 @@
 ---
-import Contact from "../components/Contact.astro";
-import Footer from "../components/Footer.astro";
-import Hero from "../components/Hero.astro";
-import Projects from "../components/ProjectsComp.astro";
-import TechStack from "../components/TechStack.astro";
+import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
+import DualCtaFooter from "../components/DualCtaFooter.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import portrait from "../assets/portrait.jpg";
+import { links, processShort, projects, stackGroups } from "../data/site";
+
+const marquee = [
+	"5+ YEARS",
+	"10+ RESIDENTIAL COMMUNITIES",
+	"1,000+ USERS",
+	"PROPTECH",
+	"EDTECH",
+	"LEGALTECH",
+	"TRANSPORTATION",
+	"HOSPITALITY",
+];
 ---
 
-<Layout title="Olawande Akinmosin">
-	<Hero />
-	<TechStack position="center" />
-	<Projects position="center" />
-	<Contact />
-	<Footer />
+<Layout
+	title="Olawande Akinmosin — Senior Frontend Engineer"
+	description="Senior frontend engineer in React, Next.js, React Native and TypeScript. I also build websites, apps and dashboards for small businesses."
+	blobs={[
+		{ color: "rgba(231,60,126,0.22)", size: "60vw", position: "top:-18vh;left:-10vw", duration: 22 },
+		{ color: "rgba(35,213,171,0.14)", size: "52vw", position: "top:30vh;right:-18vw", duration: 28, reverse: true },
+	]}
+>
+	<section class="section">
+		<div class="wrap hero">
+			<div class="eyebrow" data-reveal>Lagos, Nigeria · available for both</div>
+			<h1 data-reveal>
+				<span class="gradient-text">Senior frontend engineer.</span>
+				<span class="dim">I also build websites that help small businesses run better.</span>
+			</h1>
+			<p class="lead" data-reveal>
+				Five-plus years in React, Next.js, React Native and TypeScript. Currently leading frontend at
+				Haiven, a multi-tenant operations platform serving 10+ residential communities.
+			</p>
+			<div class="ctas" data-reveal>
+				<a href="#work" class="btn btn-primary">View my work</a>
+				<a href="#hire" class="btn btn-mint">Build my business a website</a>
+			</div>
+		</div>
+	</section>
+
+	<div class="marquee">
+		<p class="sr-only">{marquee.join(", ")}</p>
+		<div class="marquee-track" aria-hidden="true">
+			{
+				[0, 1].map(() => (
+					<div class="marquee-set">
+						{marquee.map((item) => (
+							<>
+								<span>{item}</span>
+								<span class="dot">·</span>
+							</>
+						))}
+					</div>
+				))
+			}
+		</div>
+	</div>
+
+	<section id="work" class="section work">
+		<div class="wrap">
+			<div class="section-head bordered" data-reveal>
+				<h2 class="h2">Selected work</h2>
+				<div class="note">Problem → role → outcome</div>
+			</div>
+
+			<div class="project-grid">
+				{projects.map((project) => <ProjectCard project={project} />)}
+			</div>
+
+			<div class="archive-strip" data-reveal>
+				<span>Earlier work — CareerMinds, EJik Group, Fulazo, Gotocourse, Meetifix, Classpodia, Spilleet.</span>
+				<a href="/work" class="mono-link">Browse archive →</a>
+			</div>
+		</div>
+	</section>
+
+	<section id="stack" class="section stack">
+		<div class="wrap">
+			<h2 class="h2" data-reveal>Stack</h2>
+			<div class="stack-panel">
+				{
+					stackGroups.map((g) => (
+						<div class="stack-group" data-reveal>
+							<div class="label">{g.label}</div>
+							<div class="chips">
+								{g.items.map((i) => (
+									<span class="stack-chip">{i}</span>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section id="about" class="section about">
+		<div class="wrap about-inner">
+			<div class="photo" data-reveal>
+				<Image
+					src={portrait}
+					alt="Olawande Akinmosin"
+					widths={[380, 760]}
+					sizes="(max-width: 900px) calc(100vw - 40px), 380px"
+					class="portrait"
+				/>
+			</div>
+			<div class="about-text" data-reveal>
+				<h2>
+					I’m Olawande Akinmosin, a frontend engineer who enjoys building products that feel simple to
+					use, even when the systems behind them are anything but.
+				</h2>
+				<p>
+					My path into engineering started with a love for language and design, which is why I pay as
+					much attention to clarity, usability, and product thinking as I do to code. Over the past five
+					years, I’ve built web and mobile applications across edtech, fintech, and property management
+					using React, Next.js, React Native, and TypeScript.
+				</p>
+				<p>
+					I currently lead the frontend development of Haiven at Managerr Solutions, where I design and
+					build multi-tenant experiences for gated communities—from resident onboarding and digital
+					wallets to utility payments, tenancy, and facility management. The products I work on are
+					often permissions-heavy and payment-driven, so I care deeply about architecture that scales
+					and interfaces that reduce friction for real users.
+				</p>
+				<p>
+					Outside of shipping features, I enjoy turning complex product requirements into thoughtful
+					user experiences, collaborating closely with designers and backend engineers, and constantly
+					learning better ways to build software.
+				</p>
+				<p class="tech">
+					<span>Tech I work with:</span> React, Next.js, React Native, TypeScript, Tailwind CSS, Zustand,
+					TanStack Query, Laravel APIs, Supabase &amp; MySQL.
+				</p>
+				<div class="about-links">
+					<a href="/about">Full story →</a>
+					<a href={links.github} target="_blank" rel="noopener">GitHub</a>
+					<a href={links.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+					<a href={links.resume} download>Résumé</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="hire" class="section hire">
+		<div class="wrap hire-panel">
+			<div class="label mint" data-reveal>For business owners</div>
+			<h2 data-reveal>Need a website that actually does something?</h2>
+			<p data-reveal>
+				Marketing sites, booking and ordering flows, internal dashboards, MVP builds. I scope the job in
+				plain language, tell you what's included and what isn't, and hand you something you can run
+				without me.
+			</p>
+			<div class="steps" data-reveal>
+				{
+					processShort.map((s) => (
+						<div class="step">
+							<div class="step-n">{s.n}</div>
+							<div class="step-title">{s.title}</div>
+							<div class="step-body">{s.body}</div>
+						</div>
+					))
+				}
+			</div>
+			<div class="hire-cta" data-reveal>
+				<a href="/work-with-me" class="btn btn-primary">Start a project →</a>
+			</div>
+		</div>
+	</section>
+
+	<DualCtaFooter slot="footer" />
 </Layout>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
+	/* Hero */
+	.hero {
+		padding: 120px 0 96px;
 	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
+
+	.hero .eyebrow {
+		margin-bottom: 34px;
 	}
+
 	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
+		font-size: clamp(44px, 6.6vw, 104px);
+		line-height: 0.98;
+		font-weight: 600;
+		letter-spacing: -0.035em;
+		text-wrap: balance;
+		max-width: 16ch;
 	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
+
+	.dim {
+		color: oklch(0.62 0.02 300);
 	}
-	.instructions {
-		margin-bottom: 2rem;
-		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(
-			rgba(var(--accent-dark), 66%),
-			rgba(var(--accent-dark), 33%)
-		);
-		padding: 1.5rem;
-		border-radius: 8px;
+
+	.lead {
+		margin: 36px 0 0;
+		max-width: 58ch;
+		font-size: 19px;
+		line-height: 1.65;
+		color: var(--text-body);
 	}
-	.instructions code {
-		font-size: 0.8em;
-		font-weight: bold;
-		background: rgba(var(--accent-light), 12%);
-		color: rgb(var(--accent-light));
-		border-radius: 4px;
-		padding: 0.3em 0.4em;
+
+	.ctas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+		margin-top: 44px;
 	}
-	.instructions strong {
-		color: rgb(var(--accent-light));
+
+	/* Marquee */
+	.marquee {
+		border-block: 1px solid var(--border-soft);
+		overflow: hidden;
+		padding: 18px 0;
+		background: oklch(0.18 0.008 300 / 0.5);
 	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 2rem;
-		padding: 0;
+
+	.marquee-track {
+		display: flex;
+		width: max-content;
+		animation: om-marquee 42s linear infinite;
+		font-family: var(--font-mono);
+		font-size: 13px;
+		letter-spacing: 0.04em;
+		color: oklch(0.68 0.012 300);
+	}
+
+	.marquee-set {
+		display: flex;
+		gap: 44px;
+		padding-right: 44px;
+		white-space: nowrap;
+	}
+
+	.dot {
+		color: var(--pink);
+	}
+
+	/* Selected work */
+	.work {
+		padding-top: 112px;
+		padding-bottom: 24px;
+	}
+
+	.bordered {
+		padding-bottom: 26px;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.project-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 24px;
+		margin-top: 40px;
+	}
+
+	.project-grid > :global(*) {
+		flex: 1 1 420px;
+		min-width: 0;
+	}
+
+	.archive-strip {
+		margin-top: 28px;
+		padding: 22px 26px;
+		border-radius: 12px;
+		border: 1px dashed oklch(1 0 0 / 0.13);
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 14px;
+		justify-content: space-between;
+		font-size: 15px;
+		color: oklch(0.66 0.012 300);
+	}
+
+	.mono-link {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	/* Stack */
+	.stack {
+		padding-block: 104px;
+	}
+
+	.stack .h2 {
+		margin-bottom: 40px;
+	}
+
+	.stack-panel {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1px;
+		background: var(--border);
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		overflow: hidden;
+	}
+
+	.stack-group {
+		flex: 1 1 205px;
+		background: oklch(0.175 0.008 300);
+		padding: 30px 28px 34px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.stack-group .label {
+		color: var(--coral);
+	}
+
+	.stack-chip {
+		display: inline-block;
+		font-size: 14px;
+		padding: 7px 12px;
+		border-radius: 6px;
+		background: oklch(1 0 0 / 0.045);
+		color: oklch(0.86 0.008 300);
+	}
+
+	/* About */
+	.about {
+		padding-bottom: 104px;
+	}
+
+	.about-inner {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 56px;
+		align-items: flex-start;
+	}
+
+	.photo {
+		position: sticky;
+		top: 104px;
+		flex: 1 1 300px;
+		max-width: 380px;
+	}
+
+	.portrait {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		border-radius: 14px;
+		filter: grayscale(1) contrast(1.05);
+		display: block;
+		transition: filter 0.5s ease;
+	}
+
+	.portrait:hover {
+		filter: grayscale(0) contrast(1);
+	}
+
+	.about-text {
+		flex: 1 1 460px;
+		min-width: 0;
+	}
+
+	.about-text h2 {
+		font-size: clamp(25px, 2.7vw, 34px);
+		line-height: 1.35;
+		font-weight: 500;
+		letter-spacing: -0.025em;
+		text-wrap: pretty;
+	}
+
+	.about-text p {
+		margin: 18px 0 0;
+		font-size: 17px;
+		line-height: 1.72;
+		color: var(--text-body);
+	}
+
+	.about-text h2 + p {
+		margin-top: 26px;
+	}
+
+	.about-text .tech {
+		margin-top: 26px;
+		padding-top: 22px;
+		border-top: 1px solid var(--border);
+		font-family: var(--font-mono);
+		font-size: 13.5px;
+		line-height: 1.75;
+		color: oklch(0.68 0.012 300);
+	}
+
+	.tech span {
+		color: var(--coral);
+	}
+
+	.about-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 24px;
+		margin-top: 32px;
+		font-family: var(--font-mono);
+		font-size: 13px;
+	}
+
+	@media (max-width: 900px) {
+		.photo {
+			position: static;
+		}
+	}
+
+	/* Work with me teaser */
+	.hire {
+		padding-bottom: 104px;
+	}
+
+	.hire-panel {
+		padding: 56px;
+		border-radius: 18px;
+		border: 1px solid rgba(35, 213, 171, 0.28);
+		background: linear-gradient(160deg, rgba(35, 213, 171, 0.1), var(--surface-2) 58%);
+	}
+
+	.mint {
+		color: var(--mint);
+		letter-spacing: 0.18em;
+	}
+
+	.hire-panel h2 {
+		margin-top: 20px;
+		font-size: clamp(30px, 3.6vw, 48px);
+		font-weight: 600;
+		letter-spacing: -0.03em;
+		max-width: 20ch;
+	}
+
+	.hire-panel p {
+		margin: 20px 0 0;
+		max-width: 60ch;
+		font-size: 17px;
+		line-height: 1.7;
+		color: oklch(0.74 0.01 300);
+	}
+
+	.steps {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		margin-top: 44px;
+	}
+
+	.step {
+		flex: 1 1 190px;
+		padding: 22px;
+		border-radius: 10px;
+		background: oklch(1 0 0 / 0.04);
+		border: 1px solid var(--border-soft);
+	}
+
+	.step-n {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: var(--mint);
+		letter-spacing: 0.12em;
+	}
+
+	.step-title {
+		margin-top: 12px;
+		font-size: 17px;
+		font-weight: 600;
+	}
+
+	.step-body {
+		margin-top: 8px;
+		font-size: 14px;
+		line-height: 1.55;
+		color: oklch(0.68 0.012 300);
+	}
+
+	.hire-cta {
+		margin-top: 40px;
+	}
+
+	.hire-cta .btn-primary {
+		--on-accent: oklch(0.16 0.02 165);
+	}
+
+	@media (max-width: 640px) {
+		.hero {
+			padding: 88px 0 72px;
+		}
+
+		.work {
+			padding-top: 88px;
+		}
+
+		.stack {
+			padding-block: 88px;
+		}
+
+		.hire-panel {
+			padding: 32px 22px;
+		}
 	}
 </style>

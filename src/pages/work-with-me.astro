@@ -1,0 +1,588 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Field from "../components/Field.astro";
+import Honeypot from "../components/Honeypot.astro";
+import { excluded, included, links, process, services } from "../data/site";
+
+---
+
+<Layout
+	title="Work with me — Olawande Akinmosin"
+	description="Websites, booking and ordering flows, dashboards and MVPs for small businesses, built by a senior frontend engineer."
+	theme="mint"
+	blobs={[
+		{ color: "rgba(35,213,171,0.20)", size: "58vw", position: "top:-20vh;right:-12vw", duration: 24 },
+		{ color: "rgba(231,60,126,0.13)", size: "48vw", position: "top:42vh;left:-16vw", duration: 30, reverse: true },
+	]}
+	nav={{ pill: "start" }}
+>
+	<section class="section">
+		<div class="wrap-md hero">
+			<div class="eyebrow mint" data-reveal>Work with me</div>
+			<h1 data-reveal>
+				A website that <span class="gradient-text">does a job</span>, not just one that looks nice.
+			</h1>
+			<p class="lead" data-reveal>
+				I’m a frontend engineer who builds software for a living. When I take on a business site, you
+				get the same engineering: something that works on a phone, handles real payments and bookings,
+				and that you can run without me.
+			</p>
+			<div class="ctas" data-reveal>
+				<a href="#start" class="btn btn-primary">Start a project →</a>
+				<a href="/#work" class="btn btn-ghost">See what I’ve built</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="section block">
+		<div class="wrap-md who">
+			<h2 class="h2-md" data-reveal>Who this is for</h2>
+			<div class="who-text" data-reveal>
+				<p>
+					Small businesses and founders who need a site to actually do something — take a booking, take
+					a payment, show a schedule, hold customer records — and who are tired of pretty templates that
+					break the moment real people use them.
+				</p>
+				<p class="dim">
+					If what you need is a page that only has to look good, almost any designer can do that more
+					cheaply than me. Come to me when the thing has to work.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section block">
+		<div class="wrap-md">
+			<h2 class="h2-md heading" data-reveal>What I build</h2>
+			<div class="services">
+				{
+					services.map((s) => (
+						<div class="service" data-reveal>
+							<div class="num">{s.n}</div>
+							<div class="service-title">{s.title}</div>
+							<div class="service-body">{s.body}</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section block">
+		<div class="wrap-md">
+			<h2 class="h2-md heading" data-reveal>How it goes</h2>
+			<div class="steps">
+				{
+					process.map((p) => (
+						<div class="step" data-reveal>
+							<div class="num mint">{p.n}</div>
+							<div class="step-title">{p.title}</div>
+							<div class="step-body">{p.body}</div>
+						</div>
+					))
+				}
+			</div>
+			<p class="note" data-reveal>No quote before a scoping call. I’d rather understand the job than guess at it.</p>
+		</div>
+	</section>
+
+	<section class="section block">
+		<div class="wrap-md scope">
+			<div class="scope-card included" data-reveal>
+				<div class="label mint">Included</div>
+				<ul>
+					{
+						included.map((i) => (
+							<li>
+								<span class="mark" aria-hidden="true">
+									✓
+								</span>
+								<span>{i}</span>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+			<div class="scope-card excluded" data-reveal>
+				<div class="label">Not included</div>
+				<ul>
+					{
+						excluded.map((e) => (
+							<li>
+								<span class="mark" aria-hidden="true">
+									—
+								</span>
+								<span>{e}</span>
+							</li>
+						))
+					}
+				</ul>
+				<p>If you need these, I’ll happily work alongside whoever you bring in for them.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section block">
+		<div class="wrap-md">
+			<blockquote data-reveal>
+				<p>“Ola is an exceptional talent. He’s incredibly fast and easy to work with”</p>
+				<footer>— Joseph, Avancier</footer>
+			</blockquote>
+		</div>
+	</section>
+
+	<section id="start" class="section start">
+		<div class="wrap-md panel">
+			<div data-form-view>
+				<h2 data-reveal>Tell me what you need built.</h2>
+				<p class="panel-lead" data-reveal>
+					A few lines is enough. I’ll come back with questions and we’ll set up a scoping call.
+				</p>
+				<form action="/api/contact" method="POST" novalidate data-contact-form data-reveal>
+					<input type="hidden" name="path" value="business" />
+					<input type="hidden" name="source" value="/work-with-me" />
+					<Honeypot />
+					<div class="fields">
+						<Field idPrefix="wwm" label="Your name" name="name" placeholder="Jane Okafor" autocomplete="name" required />
+						<Field idPrefix="wwm" label="Business" name="business" placeholder="Okafor Interiors" autocomplete="organization" />
+						<Field idPrefix="wwm" label="Email" name="email" type="email" placeholder="jane@okafor.co" autocomplete="email" required />
+						<Field
+							idPrefix="wwm"
+							label="Kind of project"
+							name="project"
+							type="select"
+							options={[...services.map((s) => s.title), "Not sure yet"]}
+						/>
+						<Field
+							idPrefix="wwm"
+							label="What should it do?"
+							name="message"
+							type="textarea"
+							rows={5}
+							full
+							required
+							placeholder="Customers should be able to book a fitting online and pay a deposit. Right now it all happens over WhatsApp."
+						/>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">Send it →</button>
+						<a href={`mailto:${links.email}`} class="alt-link">or {links.email}</a>
+					</div>
+					<p class="form-error" data-form-error hidden role="alert">
+						<span>
+							Something went wrong. Email me at <a href={`mailto:${links.email}`}>{links.email}</a> instead.
+						</span>
+					</p>
+				</form>
+			</div>
+			<div class="form-success fade-in" data-success-view hidden tabindex="-1">
+				<div class="tick mint" aria-hidden="true">✓</div>
+				<h2>Got it. I’ll be in touch.</h2>
+				<p>Expect a reply within two working days, usually with a couple of questions before we book the call.</p>
+				<button type="button" class="btn btn-ghost" data-reset>Send another</button>
+			</div>
+		</div>
+	</section>
+
+	<footer class="section page-footer" slot="footer">
+		<div class="wrap-md footer-inner">
+			<a href="/" class="back">← Back to the engineering work</a>
+			<div class="footer-meta">
+				<span>© 2026 Olawande Samuel Akinmosin</span>
+				<a href={`mailto:${links.email}`}>{links.email}</a>
+			</div>
+		</div>
+	</footer>
+</Layout>
+
+<script>
+	import { initForm } from "../scripts/forms";
+
+	const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+	const formView = document.querySelector<HTMLElement>("[data-form-view]");
+	const successView = document.querySelector<HTMLElement>("[data-success-view]");
+
+	if (form && formView && successView) {
+		initForm(form, {
+			onSuccess: () => {
+				formView.hidden = true;
+				successView.hidden = false;
+				successView.focus();
+			},
+		});
+
+		successView.querySelector("[data-reset]")?.addEventListener("click", () => {
+			successView.hidden = true;
+			formView.hidden = false;
+			form.querySelector<HTMLElement>(".input")?.focus();
+		});
+	}
+</script>
+
+<style>
+	.mint {
+		color: var(--mint);
+	}
+
+	/* Hero */
+	.hero {
+		padding: 112px 0 88px;
+	}
+
+	.hero .eyebrow {
+		margin-bottom: 32px;
+	}
+
+	h1 {
+		font-size: clamp(40px, 5.6vw, 84px);
+		line-height: 1.02;
+		font-weight: 600;
+		letter-spacing: -0.035em;
+		max-width: 19ch;
+		text-wrap: balance;
+	}
+
+	.lead {
+		margin: 34px 0 0;
+		max-width: 60ch;
+		font-size: 19px;
+		line-height: 1.68;
+		color: oklch(0.74 0.01 300);
+	}
+
+	.ctas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+		margin-top: 44px;
+	}
+
+	.block {
+		padding-bottom: 104px;
+	}
+
+	.h2-md {
+		font-size: clamp(27px, 3vw, 38px);
+		font-weight: 600;
+		letter-spacing: -0.03em;
+	}
+
+	.heading {
+		margin-bottom: 36px;
+	}
+
+	/* Who */
+	.who {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 48px;
+	}
+
+	.who h2 {
+		flex: 1 1 280px;
+	}
+
+	.who-text {
+		flex: 1 1 460px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.who-text p {
+		margin: 0;
+		font-size: 17.5px;
+		line-height: 1.72;
+		color: oklch(0.78 0.01 300);
+	}
+
+	.who-text .dim {
+		color: oklch(0.66 0.012 300);
+	}
+
+	/* Services */
+	.services {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1px;
+		background: var(--border);
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		overflow: hidden;
+	}
+
+	.service {
+		flex: 1 1 245px;
+		background: var(--surface);
+		padding: 28px 26px 30px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.service,
+	:global(.js) .service.is-revealed {
+		transition:
+			background-color 0.3s ease,
+			opacity 0.7s var(--ease-out),
+			transform 0.7s var(--ease-out);
+	}
+
+	.service:hover {
+		background: var(--surface-hover);
+	}
+
+	.num {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: oklch(0.6 0.012 300);
+		letter-spacing: 0.12em;
+	}
+
+	.service-title {
+		font-size: 18.5px;
+		font-weight: 600;
+		letter-spacing: -0.015em;
+	}
+
+	.service-body,
+	.step-body {
+		font-size: 14.5px;
+		line-height: 1.6;
+		color: oklch(0.68 0.012 300);
+	}
+
+	/* Process */
+	.steps {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+
+	.step {
+		flex: 1 1 220px;
+		padding: 26px;
+		border-radius: 12px;
+		border: 1px solid oklch(1 0 0 / 0.1);
+		background: var(--surface);
+	}
+
+	.step .num {
+		color: var(--mint);
+		letter-spacing: 0.14em;
+	}
+
+	.step-title {
+		margin-top: 14px;
+		font-size: 19px;
+		font-weight: 600;
+		letter-spacing: -0.015em;
+	}
+
+	.step-body {
+		margin-top: 10px;
+	}
+
+	.note {
+		margin: 26px 0 0;
+		font-family: var(--font-mono);
+		font-size: 13.5px;
+		color: oklch(0.66 0.012 300);
+	}
+
+	/* Included / not included */
+	.scope {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+
+	.scope-card {
+		flex: 1 1 380px;
+		min-width: 0;
+		padding: 36px;
+		border-radius: 14px;
+	}
+
+	.included {
+		border: 1px solid rgba(35, 213, 171, 0.3);
+		background: rgba(35, 213, 171, 0.06);
+	}
+
+	.excluded {
+		border: 1px solid oklch(1 0 0 / 0.1);
+		background: var(--surface);
+	}
+
+	.excluded .label {
+		color: oklch(0.6 0.012 300);
+	}
+
+	.scope ul {
+		list-style: none;
+		margin: 24px 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.scope li {
+		display: flex;
+		gap: 14px;
+		font-size: 16px;
+		line-height: 1.55;
+		color: oklch(0.88 0.008 300);
+	}
+
+	.included .mark {
+		color: var(--mint);
+		flex-shrink: 0;
+	}
+
+	.excluded li {
+		color: oklch(0.66 0.012 300);
+	}
+
+	.excluded .mark {
+		color: oklch(0.5 0.012 300);
+		flex-shrink: 0;
+	}
+
+	.excluded p {
+		margin: 26px 0 0;
+		font-size: 14.5px;
+		line-height: 1.6;
+		color: oklch(0.58 0.012 300);
+	}
+
+	/* Testimonial */
+	blockquote {
+		margin: 0;
+		border-left: 2px solid var(--mint);
+		padding-left: 34px;
+	}
+
+	blockquote p {
+		margin: 0;
+		font-size: clamp(23px, 2.9vw, 34px);
+		line-height: 1.42;
+		font-weight: 400;
+		letter-spacing: -0.02em;
+	}
+
+	blockquote footer {
+		margin-top: 22px;
+		font-family: var(--font-mono);
+		font-size: 13px;
+		letter-spacing: 0.06em;
+		color: oklch(0.66 0.012 300);
+	}
+
+	/* Form */
+	.start {
+		padding-bottom: 112px;
+	}
+
+	.panel {
+		padding: 52px;
+		border-radius: 18px;
+		border: 1px solid rgba(35, 213, 171, 0.28);
+		background: linear-gradient(160deg, rgba(35, 213, 171, 0.1), var(--surface-2) 60%);
+	}
+
+	.panel h2 {
+		font-size: clamp(28px, 3.4vw, 44px);
+		font-weight: 600;
+		letter-spacing: -0.03em;
+		max-width: 22ch;
+	}
+
+	.panel-lead {
+		margin: 18px 0 0;
+		max-width: 56ch;
+		font-size: 17px;
+		line-height: 1.68;
+		color: oklch(0.74 0.01 300);
+	}
+
+	form {
+		margin-top: 38px;
+	}
+
+	.form-actions {
+		margin-top: 32px;
+	}
+
+	.alt-link {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: oklch(0.6 0.012 300);
+	}
+
+	.form-success {
+		padding: 40px 0;
+		outline: none;
+	}
+
+	.form-success h2 {
+		max-width: none;
+	}
+
+	/* Footer */
+	.page-footer {
+		border-top: 1px solid var(--border);
+		padding-top: 64px;
+		padding-bottom: 48px;
+	}
+
+	.footer-inner {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.back {
+		font-size: 20px;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		color: oklch(0.9 0.008 300);
+	}
+
+	.footer-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 24px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--text-faint);
+	}
+
+	.footer-meta a {
+		color: inherit;
+	}
+
+	@media (max-width: 640px) {
+		.hero {
+			padding: 88px 0 72px;
+		}
+
+		.block {
+			padding-bottom: 88px;
+		}
+
+		.panel {
+			padding: 32px 22px;
+		}
+
+		.scope-card {
+			padding: 28px 24px;
+		}
+
+		blockquote {
+			padding-left: 22px;
+		}
+	}
+</style>

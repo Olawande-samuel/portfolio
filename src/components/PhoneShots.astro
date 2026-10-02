@@ -1,0 +1,66 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+interface Props {
+	phones: ImageMetadata[];
+	/** Compact variant used on /work cards: smaller gap, no raised middle phone. */
+	compact?: boolean;
+}
+
+const { phones, compact = false } = Astro.props;
+---
+
+<div class:list={["phones", { compact }]}>
+	{
+		phones.map((src, i) => (
+			<Image
+				src={src}
+				alt=""
+				widths={[180, 360]}
+				sizes="180px"
+				class:list={["phone", { raised: !compact && i === 1 }]}
+			/>
+		))
+	}
+</div>
+
+<style>
+	.phones {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		gap: 18px;
+		padding: 26px 20px 0;
+		background: linear-gradient(165deg, oklch(0.3 0.02 300), oklch(0.2 0.01 300));
+	}
+
+	.compact {
+		gap: 12px;
+		padding: 22px 14px 0;
+	}
+
+	.phone {
+		height: 100%;
+		width: auto;
+		min-width: 0;
+		object-fit: contain;
+		object-position: top center;
+		display: block;
+		border-radius: 14px 14px 0 0;
+		border: 1px solid var(--border-input);
+		border-bottom: none;
+		box-shadow: 0 18px 40px oklch(0.1 0.01 300 / 0.55);
+	}
+
+	.compact .phone {
+		border-radius: 12px 12px 0 0;
+		box-shadow: none;
+	}
+
+	.raised {
+		transform: translateY(-10px);
+	}
+</style>

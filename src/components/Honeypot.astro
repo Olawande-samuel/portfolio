@@ -1,0 +1,21 @@
+---
+// Spam trap: hidden from people and assistive tech, but bots that fill every field will fill it.
+// /api/contact silently drops any submission where it has a value.
+---
+
+<div class="hp" aria-hidden="true">
+	<label>
+		Leave this empty
+		<input type="text" name="website" tabindex="-1" autocomplete="off" />
+	</label>
+</div>
+
+<style>
+	.hp {
+		position: absolute;
+		left: -10000px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+</style>

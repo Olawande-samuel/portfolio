@@ -1,0 +1,47 @@
+---
+export interface Blob {
+	/** RGBA colour at the centre of the radial gradient. */
+	color: string;
+	/** Width and height, e.g. "60vw". */
+	size: string;
+	/** Inline positioning, e.g. "top:-18vh;left:-10vw". */
+	position: string;
+	duration: number;
+	reverse?: boolean;
+}
+
+interface Props {
+	blobs: Blob[];
+}
+
+const { blobs } = Astro.props;
+---
+
+<div class="glow" aria-hidden="true">
+	{
+		blobs.map((b) => (
+			<div
+				class="blob"
+				style={`${b.position};width:${b.size};height:${b.size};background:radial-gradient(circle,${b.color},transparent 62%);animation-duration:${b.duration}s;${b.reverse ? "animation-direction:reverse;" : ""}`}
+			/>
+		))
+	}
+</div>
+
+<style>
+	.glow {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: 0;
+		opacity: 0.5;
+		overflow: hidden;
+	}
+
+	.blob {
+		position: absolute;
+		border-radius: 50%;
+		filter: blur(20px);
+		animation: om-drift 24s ease-in-out infinite;
+	}
+</style>
